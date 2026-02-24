@@ -11,6 +11,7 @@ echo "Configuring Git for: $GIT_NAME <$GIT_EMAIL>..."
 # 2. Set Global Identity
 git config --global user.name "$GIT_NAME"
 git config --global user.email "$GIT_EMAIL"
+git config --global pull.rebase false
 
 # 3. Configure Authentication using GITHUB_TOKEN
 # This tells Git to intercept any HTTPS request to github.com and 
