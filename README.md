@@ -29,7 +29,7 @@ bash -c 'cd /workspace && if [ -d runpod_startup_scripts ]; then git -C runpod_s
 
 ## Connect to VSCode Server
 
-The scripts will spawn a VSCode tunnel named **cloud-dev-machine**. You can adjust this name in `start_code_server.sh` if you want. 
+The scripts will spawn a VSCode tunnel named **cloud-dev-machine**. You can adjust this name in `start_code_server.sh` if you want. Install the *Visual Studio Code Remote Development Extension Pack* and follow the instructions [here](https://code.visualstudio.com/docs/remote/tunnels#_remote-tunnels-extension) to connect to your VSCode server using the token you generated in the first step.
 
 
 ## Save Snapshots
