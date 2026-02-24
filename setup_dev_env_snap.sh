@@ -39,6 +39,8 @@ mkdir -p "${TRITON_CACHE_DIR}"
 mkdir -p "${TORCHINDUCTOR_CACHE_DIR}"
 
 source "${SCRIPTS_DIR}/runpod_start.sh"
+source "${SCRIPTS_DIR}/load_code_cache.sh"
+source "${SCRIPTS_DIR}/install_code_cli.sh"
 source "${SCRIPTS_DIR}/start_code_server.sh"
 source "${SCRIPTS_DIR}/install_uv.sh"
 source "${SCRIPTS_DIR}/install_zstd.sh"
