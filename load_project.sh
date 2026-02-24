@@ -50,7 +50,7 @@ if [ -f "$SNAP_FILE" ]; then
     if [ -d ".git" ]; then
         # Stash any potential local changes from the snapshot just in case, 
         # to ensure the pull doesn't fail due to merge conflicts.
-        # git stash &> /dev/null
+        git stash &> "$DEST_DIR/$PROJECT_NAME/stash.log"
         git pull
         echo "✅ Snapshot loaded and synced with latest Git changes."
     else
