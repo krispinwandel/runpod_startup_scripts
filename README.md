@@ -5,7 +5,7 @@ A collection of startup scripts to set up development environments on Runpod. Sp
 ## First-Time Startup: Creating a VSCode Server Token
 
 1. Deploy a runpod and mount a network volume at `/workspace` (default mount dir).
-2. Open the web terminal and the following commands to generate a VSCode server token and save it:
+2. Open the web terminal and run the following commands to generate a VSCode server token:
 
 ```bash
 cd /workspace
@@ -29,7 +29,7 @@ bash -c 'cd /workspace && if [ -d runpod_startup_scripts ]; then git -C runpod_s
 
 ## Connect to VSCode Server
 
-The scripts will spawn a VSCode tunnel named **cloud-dev-machine**. You can adjust this name in `start_code_server.sh` if you want. Install the *Visual Studio Code Remote Development Extension Pack* and follow the instructions [here](https://code.visualstudio.com/docs/remote/tunnels#_remote-tunnels-extension) to connect to your VSCode server using the token you generated in the first step.
+The scripts will spawn a VSCode tunnel named **cloud-dev-machine**. You can adjust this name in `start_code_server.sh` if you want. Install the *Visual Studio Code Remote Development Extension Pack* and follow the instructions [here](https://code.visualstudio.com/docs/remote/tunnels#_remote-tunnels-extension) to connect to your VSCode server. Make sure to sign in to the same account as used to generated the token in the first step.
 
 
 ## Save Snapshots
