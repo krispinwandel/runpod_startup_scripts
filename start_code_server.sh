@@ -1,8 +1,14 @@
 # Configuration
-TUNNEL_NAME="cloud-dev-machine"
+TUNNEL_NAME="${TUNNEL_NAME:-cloud-dev-machine}"
+echo "Using tunnel: $TUNNEL_NAME"
 DATA_DIR="/workspace/.cache/code_cli"
 BIN_DIR="$HOME/.local/bin"
 CODE_BIN="$BIN_DIR/code"
+
+# Export again in case this script is run independently
+export VSCODE_CLI_USE_FILE_KEYCHAIN=1
+export VSCODE_CLI_DISABLE_KEYCHAIN_ENCRYPT=1
+export VSCODE_CLI_DATA_DIR="$DATA_DIR"
 
 # Start the tunnel in the background
 # The --install-extension flags execute silently if the extensions are already cached
