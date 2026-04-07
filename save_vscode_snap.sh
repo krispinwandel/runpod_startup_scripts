@@ -4,7 +4,11 @@ set -e
 SERVER_DIR="$HOME/.vscode-server"
 REMOTE_DIR="$HOME/.vscode-remote-containers"
 SNAP_DIR="/workspace/snapshots"
-SNAP_FILE="$SNAP_DIR/vscode-server-cache.tar.zst"
+RAW_TUNNEL_NAME="${TUNNEL_NAME:-default}"
+SAFE_TUNNEL_NAME="$(echo "$RAW_TUNNEL_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g')"
+SNAP_FILE="$SNAP_DIR/vscode-server-cache-$SAFE_TUNNEL_NAME.tar.zst"
+
+echo "Using tunnel snapshot key: $SAFE_TUNNEL_NAME"
 
 echo "🛑 Stopping VS Code Tunnel to prevent database corruption..."
 # Kill the process to ensure SQLite databases are closed safely

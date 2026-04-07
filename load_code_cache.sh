@@ -1,4 +1,9 @@
-CODE_SNAP_FILE="/workspace/snapshots/vscode-server-cache.tar.zst"
+SNAP_DIR="/workspace/snapshots"
+RAW_TUNNEL_NAME="${TUNNEL_NAME:-default}"
+SAFE_TUNNEL_NAME="$(echo "$RAW_TUNNEL_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g')"
+CODE_SNAP_FILE="$SNAP_DIR/vscode-server-cache-$SAFE_TUNNEL_NAME.tar.zst"
+
+echo "Using tunnel snapshot key: $SAFE_TUNNEL_NAME"
 
 echo "🔍 Checking for VS Code Server snapshots..."
 if [ -f "$CODE_SNAP_FILE" ]; then

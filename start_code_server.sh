@@ -19,37 +19,30 @@ fi
 
 DATA_DIR="$TUNNELS_DIR/$SAFE_TUNNEL_NAME"
 LOG_FILE="$DATA_DIR/tunnel.log"
+SHARED_TOKEN_FILE="$CODE_CLI_ROOT_DIR/token.json"
+TUNNEL_TOKEN_FILE="$DATA_DIR/token.json"
 
+mkdir -p "$CODE_CLI_ROOT_DIR"
+mkdir -p "$TUNNELS_DIR"
 mkdir -p "$DATA_DIR"
 
-is_dir_empty() {
-    [ -z "$(find "$1" -mindepth 1 -print -quit 2>/dev/null)" ]
-}
-
-bootstrap_legacy_state() {
-    local copied=0
-    local legacy_item
-
-    # Backward compatibility: old setups stored auth state directly in CODE_CLI_ROOT_DIR.
-    # If this tunnel directory is empty, seed it from legacy root contents.
-    if ! is_dir_empty "$DATA_DIR"; then
-        return
+sync_shared_token() {
+    if [ -f "$TUNNEL_TOKEN_FILE" ] && { [ ! -f "$SHARED_TOKEN_FILE" ] || [ "$TUNNEL_TOKEN_FILE" -nt "$SHARED_TOKEN_FILE" ]; }; then
+        cp -a "$TUNNEL_TOKEN_FILE" "$SHARED_TOKEN_FILE"
+        echo "Updated shared token store: $SHARED_TOKEN_FILE"
     fi
 
-    while IFS= read -r legacy_item; do
-        cp -a "$legacy_item" "$DATA_DIR/"
-        copied=1
-    done < <(find "$CODE_CLI_ROOT_DIR" -mindepth 1 -maxdepth 1 ! -name "tunnels" -print 2>/dev/null)
-
-    if [ "$copied" -eq 1 ]; then
-        echo "Bootstrapped tunnel state from legacy shared directory: $CODE_CLI_ROOT_DIR"
+    if [ -f "$SHARED_TOKEN_FILE" ] && [ ! -f "$TUNNEL_TOKEN_FILE" ]; then
+        cp -a "$SHARED_TOKEN_FILE" "$TUNNEL_TOKEN_FILE"
+        echo "Bootstrapped tunnel auth token from shared store."
     fi
 }
 
-bootstrap_legacy_state
+sync_shared_token
 
 echo "Using tunnel: $TUNNEL_NAME"
 echo "Tunnel data dir: $DATA_DIR"
+echo "Shared token file: $SHARED_TOKEN_FILE"
 
 # Export again in case this script is run independently.
 # Use a per-tunnel keychain dir so multiple machines can share one account token safely.

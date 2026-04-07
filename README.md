@@ -16,9 +16,8 @@ cd runpod_startup_scripts
 source install_code_cli.sh
 # required: unique tunnel name per machine
 export TUNNEL_NAME=cloud-dev-a100-1
-# isolate auth/token/keychain data by tunnel name
-export VSCODE_CLI_DATA_DIR="/workspace/.cache/code_cli/tunnels/$TUNNEL_NAME"
-mkdir -p "$VSCODE_CLI_DATA_DIR"
+# optional explicit shared token store (already set by install_code_cli.sh)
+export VSCODE_CLI_DATA_DIR="/workspace/.cache/code_cli"
 # generate vscode server token
 code tunnel user login
 ```
@@ -50,15 +49,19 @@ Tunnel auth/runtime state is stored in:
 /workspace/.cache/code_cli/tunnels/<TUNNEL_NAME>
 ```
 
-This allows multiple machines to use the same VS Code account token while avoiding state collisions between machines.
-
-Backward compatibility is built in: if a tunnel directory is empty, startup will copy legacy auth/runtime files from:
+This allows multiple machines to use the same VS Code account token while avoiding state collisions between machines. The shared canonical token is:
 
 ```bash
-/workspace/.cache/code_cli
+/workspace/.cache/code_cli/token.json
 ```
 
-excluding `/workspace/.cache/code_cli/tunnels`. This lets older single-directory setups migrate without redoing login for every new tunnel name.
+Backward compatibility is built in: startup uses the shared token store at:
+
+```bash
+/workspace/.cache/code_cli/token.json
+```
+
+Startup syncs `token.json` between the shared root and each tunnel folder. It does not copy tunnel metadata, logs, locks, or server binaries. This lets older single-directory setups migrate without redoing login for every new tunnel name.
 
 Install the *Visual Studio Code Remote Development Extension Pack* and follow the instructions [here](https://code.visualstudio.com/docs/remote/tunnels#_remote-tunnels-extension) to connect to your VSCode server. Make sure to sign in to the same account used in the token login step.
 

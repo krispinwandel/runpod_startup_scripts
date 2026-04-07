@@ -18,9 +18,11 @@ if [ ! -f "$CODE_BIN" ]; then
 fi
 
 # 2. Export environment variables for the zero-touch auth mode.
-# VSCODE_CLI_DATA_DIR is set in start_code_server.sh to isolate per-tunnel state.
+# Use shared root by default so `code tunnel user login` stores token.json in one reusable location.
+# start_code_server.sh overrides VSCODE_CLI_DATA_DIR to tunnel-specific runtime directories.
 export VSCODE_CLI_USE_FILE_KEYCHAIN=1
 export VSCODE_CLI_DISABLE_KEYCHAIN_ENCRYPT=1
+export VSCODE_CLI_DATA_DIR="$CODE_CLI_ROOT_DIR"
 export PATH="$BIN_DIR:$PATH"
 
 echo "VS Code CLI installed at: $CODE_BIN"
