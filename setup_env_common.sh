@@ -21,6 +21,10 @@ setup_dev_environment() {
         "HF_HOME"
         "HF_TOKEN"
         "WANDB_API_KEY"
+        "AWS_USER_KEY"
+        "AWS_SECRET_KEY"
+        "AWS_LOCATION"
+        "AWS_FORMAT"
         "PUBLIC_KEY"
         "JUPYTER_PASSWORD"
         "GITHUB_TOKEN"
@@ -53,6 +57,7 @@ setup_dev_environment() {
     fi
     source "${SCRIPTS_DIR}/install_uv.sh"
     source "${SCRIPTS_DIR}/install_zstd.sh"
+    source "${SCRIPTS_DIR}/install_aws.sh"
     source "${SCRIPTS_DIR}/configure_git.sh"
     source "${SCRIPTS_DIR}/load_project.sh" "$git_url"
     source "${SCRIPTS_DIR}/export_vars.sh" "${EXPORT_VAR_NAMES[@]}"
