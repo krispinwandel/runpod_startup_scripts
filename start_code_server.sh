@@ -5,10 +5,10 @@ CODE_CLI_ROOT_DIR="/workspace/.cache/code_cli"
 TUNNELS_DIR="$CODE_CLI_ROOT_DIR/tunnels"
 
 if [ -z "${TUNNEL_NAME:-}" ]; then
-    echo "ERROR: TUNNEL_NAME is required for multi-machine usage."
-    echo "Set a unique name per machine, for example:"
+    echo "Skipping VS Code Tunnel startup: TUNNEL_NAME is not set."
+    echo "Set a unique name per machine to enable tunnel startup, for example:"
     echo "  export TUNNEL_NAME=cloud-dev-a100-1"
-    return 1
+    return 0
 fi
 
 SAFE_TUNNEL_NAME="$(echo "$TUNNEL_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g')"
@@ -39,6 +39,12 @@ sync_shared_token() {
 }
 
 sync_shared_token
+
+if [ ! -f "$TUNNEL_TOKEN_FILE" ] && [ ! -f "$SHARED_TOKEN_FILE" ]; then
+    echo "Skipping VS Code Tunnel startup: no auth token found."
+    echo "Authenticate first with: $CODE_BIN tunnel user login"
+    return 0
+fi
 
 echo "Using tunnel: $TUNNEL_NAME"
 echo "Tunnel data dir: $DATA_DIR"
