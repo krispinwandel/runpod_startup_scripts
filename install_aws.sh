@@ -4,17 +4,30 @@ set -e
 
 AWS_LOCATION="${AWS_LOCATION:-us-ca-2}"
 AWS_FORMAT="${AWS_FORMAT:-json}"
+AWS_CACHE_DIR="${AWS_CACHE_DIR:-${HOME}/.cache/aws}"
 
-if ! command -v aws >/dev/null 2>&1; then
-    echo "Installing AWS CLI..."
+# Add cached AWS bin to PATH if it exists
+if [ -f "${AWS_CACHE_DIR}/bin/aws" ]; then
+    export PATH="${AWS_CACHE_DIR}/bin:${PATH}"
+    echo "Using cached AWS CLI from ${AWS_CACHE_DIR}/bin"
+elif ! command -v aws >/dev/null 2>&1; then
+    echo "Installing AWS CLI to ${AWS_CACHE_DIR}..."
+    mkdir -p "${AWS_CACHE_DIR}"
+    
     if ! command -v unzip >/dev/null 2>&1; then
         apt-get update && apt-get install -y unzip
     fi
 
+    # Download and install to cache directory
+    cd /tmp
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     unzip -q awscliv2.zip
-    ./aws/install
-    rm -rf awscliv2.zip aws
+    ./aws/install --install-dir "${AWS_CACHE_DIR}" --bin-dir "${AWS_CACHE_DIR}/bin"
+    rm -rf /tmp/awscliv2.zip /tmp/aws
+    
+    # Add to PATH
+    export PATH="${AWS_CACHE_DIR}/bin:${PATH}"
+    echo "AWS CLI installed to ${AWS_CACHE_DIR}"
 fi
 
 mkdir -p "$HOME/.aws"

@@ -25,6 +25,7 @@ setup_dev_environment() {
         "AWS_SECRET_KEY"
         "AWS_LOCATION"
         "AWS_FORMAT"
+        "AWS_CACHE_DIR"
         "PUBLIC_KEY"
         "JUPYTER_PASSWORD"
         "GITHUB_TOKEN"
@@ -38,6 +39,7 @@ setup_dev_environment() {
     # env vars
     export UV_CACHE_DIR="${CACHE_DIR}/uv"
     export HF_HOME="${CACHE_DIR}/hf"
+    export AWS_CACHE_DIR="${CACHE_DIR}/aws"
     export TRITON_CACHE_DIR="${CACHE_DIR}/triton"
     export TORCHINDUCTOR_FX_GRAPH_CACHE=1
     export TORCHINDUCTOR_AUTOGRAD_CACHE=1
@@ -46,6 +48,7 @@ setup_dev_environment() {
     # Create the hidden cache directories on your persistent volume
     mkdir -p "${UV_CACHE_DIR}"
     mkdir -p "${HF_HOME}"
+    mkdir -p "${AWS_CACHE_DIR}"
     mkdir -p "${TRITON_CACHE_DIR}"
     mkdir -p "${TORCHINDUCTOR_CACHE_DIR}"
 
