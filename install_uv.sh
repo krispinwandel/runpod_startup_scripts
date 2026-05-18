@@ -6,9 +6,9 @@ set -e
 echo "--- Starting uv installation for RunPod ---"
 
 # 1. Download and run the astral-sh installation script
-# -sSf: Silent, show errors, fail on server errors
+# -fsSL: Fail on errors, silent, show errors, follow redirects
 # We pipe to sh to execute the installer
-curl -lsSf https://astral.sh/uv/install.sh | sh
+curl -fsSL https://astral.sh/uv/install.sh | sh
 
 # 2. Configure the shell environment
 # In RunPod, HOME=/root. The installer usually places the binary in $HOME/.local/bin
