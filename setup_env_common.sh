@@ -60,7 +60,7 @@ setup_dev_environment() {
     fi
     source "${SCRIPTS_DIR}/install_uv.sh"
     source "${SCRIPTS_DIR}/install_zstd.sh"
-    source "${SCRIPTS_DIR}/install_aws.sh"
+    # source "${SCRIPTS_DIR}/install_aws.sh"
     source "${SCRIPTS_DIR}/configure_git.sh"
     source "${SCRIPTS_DIR}/load_project.sh" "$git_url"
     source "${SCRIPTS_DIR}/export_vars.sh" "${EXPORT_VAR_NAMES[@]}"
